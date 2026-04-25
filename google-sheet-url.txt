@@ -1,4 +1,1 @@
-Paste your Google Apps Script Web App URL below.
-It should look like https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec
-
 https://script.google.com/macros/s/AKfycbx_JHQh_KY4XVMhfLnHeeXOFMbDfg295QGPJsxaZ2exuJ8YEoHDbIDkTWdyNEnfvTnR/exec
