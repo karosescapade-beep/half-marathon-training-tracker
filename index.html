@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Half Marathon + HYROX Training Tracker</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <div class="hero-art" role="img" aria-label="Watercolor training illustration"></div>
+      <div class="hero-content">
+        <div>
+        <p class="eyebrow">April 27-August 8, 2026</p>
+          <h1>Half Marathon + HYROX Tracker</h1>
+          <p class="intro">
+            A calm, checkable calendar for Monday runs, WFH class days,
+            Saturday long runs, flexibility recovery, and race day.
+          </p>
+          <p class="motto">Consistency over intensity.</p>
+        </div>
+        <section class="progress-card" aria-label="Training progress">
+          <div class="progress-ring">
+            <span id="progressPercent">0%</span>
+          </div>
+          <div class="progress-copy">
+            <div class="progress-topline">
+              <span id="completedCount">0 completed</span>
+              <span id="totalCount">0 total</span>
+            </div>
+            <div class="progress-bar" aria-hidden="true">
+              <span id="progressFill"></span>
+            </div>
+            <button id="resetButton" type="button">Reset checkmarks</button>
+          </div>
+        </section>
+      </div>
+    </header>
+
+    <main>
+      <section class="weekly-rhythm" aria-labelledby="rhythm-title">
+        <div class="section-heading">
+          <p class="eyebrow">Default week</p>
+          <h2 id="rhythm-title">Your Training Rhythm</h2>
+        </div>
+        <div class="rhythm-grid">
+          <article>
+            <span>Mon</span>
+            <strong>Easy run</strong>
+          </article>
+          <article>
+            <span>Tue</span>
+            <strong>Rest, walk, or mobility</strong>
+          </article>
+          <article>
+            <span>Wed</span>
+            <strong>Flexibility: Pilates, Barre, or Yoga</strong>
+          </article>
+          <article>
+            <span>Thu</span>
+            <strong>Strength: Barry's or F45 + Flexibility</strong>
+          </article>
+          <article>
+            <span>Fri</span>
+            <strong>Strength: Barry's or F45 + Flexibility</strong>
+          </article>
+          <article>
+            <span>Sat</span>
+            <strong>Long run</strong>
+          </article>
+          <article>
+            <span>Sun</span>
+            <strong>Easy run or Flexibility</strong>
+          </article>
+        </div>
+      </section>
+
+      <section aria-labelledby="weeks-title">
+        <div class="section-heading">
+          <p class="eyebrow">Dated 2026 calendar</p>
+          <h2 id="weeks-title">Half Marathon Build</h2>
+        </div>
+        <div id="weeks" class="weeks"></div>
+      </section>
+
+      <section class="notes" aria-labelledby="notes-title">
+        <div class="section-heading">
+          <p class="eyebrow">Guardrails</p>
+          <h2 id="notes-title">Keep This Sustainable</h2>
+        </div>
+        <div class="note-grid">
+          <article>
+            <h3>Protect Saturday</h3>
+            <p>
+              Friday should ideally be flexibility work, upper/core strength, or
+              a lighter class so your long run has room to grow.
+            </p>
+          </article>
+          <article>
+            <h3>Easy Means Easy</h3>
+            <p>
+              These early runs should feel conversational. Run/walk is allowed
+              and still counts.
+            </p>
+          </article>
+          <article>
+            <h3>Use Gympass Wisely</h3>
+            <p>
+              Pilates, Barre, or Yoga can show up often. Keep true hard sessions
+              to two or three per week while your running base catches up.
+            </p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
