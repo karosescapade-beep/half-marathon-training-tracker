@@ -229,7 +229,7 @@ const weeks = [
 const competitionKey = "half-hyrox-competition-2026-v1";
 const legacyKey = "half-hyrox-tracker-2026-v2";
 const ownerKeyStorageKey = "half-hyrox-owner-key-v1";
-const appBuildVersion = "v25";
+const appBuildVersion = "v27";
 // Optional fallback. The easier setup is to paste the Web App URL into google-sheet-url.txt.
 let googleSheetWebAppUrl = "https://script.google.com/macros/s/AKfycbx_JHQh_KY4XVMhfLnHeeXOFMbDfg295QGPJsxaZ2exuJ8YEoHDbIDkTWdyNEnfvTnR/exec";
 const weeksContainer = document.querySelector("#weeks");
@@ -523,7 +523,12 @@ function loadJsonp(url) {
   return new Promise((resolve, reject) => {
     const callbackName = `sheetCallback_${Date.now()}_${Math.random().toString(36).slice(2)}`;
     const script = document.createElement("script");
+    const timeout = window.setTimeout(() => {
+      cleanup();
+      reject(new Error("Google Sheet sync timed out."));
+    }, 12000);
     const cleanup = () => {
+      window.clearTimeout(timeout);
       delete window[callbackName];
       script.remove();
     };
@@ -560,19 +565,57 @@ function fetchSheetProfiles() {
 function submitToSheet(payload) {
   if (!googleSyncEnabled) return Promise.resolve({ ok: false });
 
-  const params = {
-    action: payload.action || "upsert",
-    ownerKey: payload.ownerKey || browserOwnerKey,
+  const completePayload = {
+    ...payload,
     build: appBuildVersion,
-    cacheBust: Date.now().toString(),
   };
+  const payloadJson = JSON.stringify(completePayload);
 
-  if (payload.profile) params.payload = JSON.stringify({ profile: payload.profile });
-  if (payload.profileId) params.profileId = payload.profileId;
+  return new Promise((resolve) => {
+    const frameName = `sheetPostFrame_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+    const postFrame = document.createElement("iframe");
+    const form = document.createElement("form");
+    const input = document.createElement("input");
+    const getFrame = document.createElement("iframe");
 
-  return loadJsonp(makeSheetUrl(params)).then((response) => {
-    if (!response?.ok) throw new Error(response?.error || "Google Sheet save failed.");
-    return response;
+    postFrame.name = frameName;
+    postFrame.hidden = true;
+    postFrame.title = "Google Sheet sync post";
+
+    form.method = "POST";
+    form.action = googleSheetWebAppUrl;
+    form.target = frameName;
+    form.hidden = true;
+
+    input.type = "hidden";
+    input.name = "payload";
+    input.value = payloadJson;
+
+    form.append(input);
+    document.body.append(postFrame, form);
+    form.submit();
+
+    const params = new URLSearchParams({
+      action: payload.action || "upsert",
+      ownerKey: payload.ownerKey || browserOwnerKey,
+      build: appBuildVersion,
+      cacheBust: Date.now().toString(),
+    });
+
+    if (payload.profile) params.set("payload", JSON.stringify({ profile: payload.profile }));
+    if (payload.profileId) params.set("profileId", payload.profileId);
+
+    getFrame.hidden = true;
+    getFrame.title = "Google Sheet sync fallback";
+    getFrame.src = `${googleSheetWebAppUrl}?${params.toString()}`;
+    document.body.append(getFrame);
+
+    window.setTimeout(() => {
+      form.remove();
+      postFrame.remove();
+      getFrame.remove();
+      resolve({ ok: true });
+    }, 2600);
   });
 }
 
@@ -634,16 +677,21 @@ async function syncProfileToSheet(profile = getActiveProfile()) {
       ownerKey: browserOwnerKey,
       profile: getPublicProfile(profile),
     });
+    updateSyncStatus("Save sent to Google Sheet. Confirming...", "saving");
 
-    const profiles = await fetchProfilesUntil((sheetProfiles) =>
-      sheetProfiles.some((remoteProfile) => remoteProfile.id === profileId),
-    );
-    if (!profiles.some((remoteProfile) => remoteProfile.id === profileId)) {
-      throw new Error("Profile was not found in the Google Sheet.");
+    try {
+      const profiles = await fetchProfilesUntil((sheetProfiles) =>
+        sheetProfiles.some((remoteProfile) => remoteProfile.id === profileId),
+      );
+      if (!profiles.some((remoteProfile) => remoteProfile.id === profileId)) {
+        throw new Error("Profile was not found in the Google Sheet.");
+      }
+
+      applyRemoteProfiles(profiles);
+      updateSyncStatus("Synced with Google Sheet", "success");
+    } catch {
+      updateSyncStatus("Save sent. Refresh the Google Sheet to confirm.", "success");
     }
-
-    applyRemoteProfiles(profiles);
-    updateSyncStatus("Synced with Google Sheet", "success");
   } catch (error) {
     updateSyncStatus(`Google Sheet error: ${error.message || "save failed"}`, "error");
   }
@@ -660,16 +708,21 @@ async function syncDeleteProfile(profile) {
       ownerKey: browserOwnerKey,
       profileId,
     });
+    updateSyncStatus("Delete sent to Google Sheet. Confirming...", "saving");
 
-    const profiles = await fetchProfilesUntil((sheetProfiles) =>
-      !sheetProfiles.some((remoteProfile) => remoteProfile.id === profileId),
-    );
-    if (profiles.some((remoteProfile) => remoteProfile.id === profileId)) {
-      throw new Error("Profile was still found in the Google Sheet.");
+    try {
+      const profiles = await fetchProfilesUntil((sheetProfiles) =>
+        !sheetProfiles.some((remoteProfile) => remoteProfile.id === profileId),
+      );
+      if (profiles.some((remoteProfile) => remoteProfile.id === profileId)) {
+        throw new Error("Profile was still found in the Google Sheet.");
+      }
+
+      applyRemoteProfiles(profiles);
+      updateSyncStatus("Synced with Google Sheet", "success");
+    } catch {
+      updateSyncStatus("Delete sent. Refresh the Google Sheet to confirm.", "success");
     }
-
-    applyRemoteProfiles(profiles);
-    updateSyncStatus("Synced with Google Sheet", "success");
   } catch (error) {
     updateSyncStatus(`Google Sheet error: ${error.message || "delete failed"}`, "error");
   }
