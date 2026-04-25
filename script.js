@@ -229,6 +229,7 @@ const weeks = [
 const competitionKey = "half-hyrox-competition-2026-v1";
 const legacyKey = "half-hyrox-tracker-2026-v2";
 const ownerKeyStorageKey = "half-hyrox-owner-key-v1";
+const appBuildVersion = "v25";
 // Optional fallback. The easier setup is to paste the Web App URL into google-sheet-url.txt.
 let googleSheetWebAppUrl = "https://script.google.com/macros/s/AKfycbx_JHQh_KY4XVMhfLnHeeXOFMbDfg295QGPJsxaZ2exuJ8YEoHDbIDkTWdyNEnfvTnR/exec";
 const weeksContainer = document.querySelector("#weeks");
@@ -562,6 +563,7 @@ function submitToSheet(payload) {
   const params = {
     action: payload.action || "upsert",
     ownerKey: payload.ownerKey || browserOwnerKey,
+    build: appBuildVersion,
     cacheBust: Date.now().toString(),
   };
 
