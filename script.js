@@ -542,25 +542,78 @@ function loadJsonp(url) {
   });
 }
 
-function postToSheet(payload) {
-  if (!googleSyncEnabled) return;
+function wait(milliseconds) {
+  return new Promise((resolve) => window.setTimeout(resolve, milliseconds));
+}
 
-  const body = new URLSearchParams({ payload: JSON.stringify(payload) }).toString();
+function fetchSheetProfiles() {
+  return loadJsonp(
+    makeSheetUrl({
+      action: "list",
+      ownerKey: browserOwnerKey,
+      cacheBust: Date.now().toString(),
+    }),
+  ).then((payload) => (Array.isArray(payload?.profiles) ? payload.profiles : []));
+}
 
-  if (navigator.sendBeacon) {
-    const blob = new Blob([body], { type: "application/x-www-form-urlencoded;charset=UTF-8" });
-    navigator.sendBeacon(googleSheetWebAppUrl, blob);
-    return;
+function submitToSheet(payload) {
+  if (!googleSyncEnabled) return Promise.resolve();
+
+  const frameName = `sheetPostFrame_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+  const iframe = document.createElement("iframe");
+  const form = document.createElement("form");
+  const input = document.createElement("input");
+
+  iframe.name = frameName;
+  iframe.hidden = true;
+  iframe.title = "Google Sheet sync";
+
+  form.method = "POST";
+  form.action = googleSheetWebAppUrl;
+  form.target = frameName;
+  form.hidden = true;
+
+  input.type = "hidden";
+  input.name = "payload";
+  input.value = JSON.stringify(payload);
+
+  form.append(input);
+  document.body.append(iframe, form);
+  form.submit();
+
+  return wait(1700).finally(() => {
+    form.remove();
+    window.setTimeout(() => iframe.remove(), 3000);
+  });
+}
+
+function applyRemoteProfiles(profiles) {
+  const remoteIds = new Set();
+  isApplyingRemoteProfiles = true;
+
+  profiles.forEach((remoteProfile) => {
+    if (!remoteProfile?.id) return;
+    const profile = createProfile(remoteProfile.name || "Friend", {
+      ...remoteProfile,
+      ownerKey: remoteProfile.canEdit ? browserOwnerKey : null,
+      remote: true,
+      canEdit: Boolean(remoteProfile.canEdit),
+    });
+    remoteIds.add(profile.id);
+    appState.profiles[profile.id] = profile;
+  });
+
+  Object.entries(appState.profiles).forEach(([profileId, profile]) => {
+    if (profile.remote && !remoteIds.has(profileId)) delete appState.profiles[profileId];
+  });
+
+  if (!appState.profiles[appState.activeProfileId]) {
+    appState.activeProfileId = appState.profiles["profile-you"] ? "profile-you" : Object.keys(appState.profiles)[0];
   }
 
-  fetch(googleSheetWebAppUrl, {
-    method: "POST",
-    mode: "no-cors",
-    headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
-    body,
-  }).catch(() => {
-    updateSyncStatus("Google sync could not save just now", "error");
-  });
+  saveState({ sync: false });
+  refreshApp({ loadRemote: false });
+  isApplyingRemoteProfiles = false;
 }
 
 function queueProfileSync(profile = getActiveProfile()) {
@@ -569,26 +622,52 @@ function queueProfileSync(profile = getActiveProfile()) {
   syncTimer = setTimeout(() => syncProfileToSheet(profile), 450);
 }
 
-function syncProfileToSheet(profile = getActiveProfile()) {
+async function syncProfileToSheet(profile = getActiveProfile()) {
   if (!shouldSyncProfile(profile)) return;
+  const profileId = profile.id;
   updateSyncStatus("Saving to Google Sheet...", "saving");
-  postToSheet({
-    action: "upsert",
-    ownerKey: browserOwnerKey,
-    profile: getPublicProfile(profile),
-  });
-  window.setTimeout(() => updateSyncStatus("Synced with Google Sheet", "success"), 700);
+
+  try {
+    await submitToSheet({
+      action: "upsert",
+      ownerKey: browserOwnerKey,
+      profile: getPublicProfile(profile),
+    });
+
+    const profiles = await fetchSheetProfiles();
+    if (!profiles.some((remoteProfile) => remoteProfile.id === profileId)) {
+      throw new Error("Profile was not found in the Google Sheet.");
+    }
+
+    applyRemoteProfiles(profiles);
+    updateSyncStatus("Synced with Google Sheet", "success");
+  } catch {
+    updateSyncStatus("Google Sheet did not update. Check deployment.", "error");
+  }
 }
 
-function syncDeleteProfile(profile) {
+async function syncDeleteProfile(profile) {
   if (!googleSyncEnabled || !isProfileEditable(profile)) return;
+  const profileId = profile.id;
   updateSyncStatus("Removing from Google Sheet...", "saving");
-  postToSheet({
-    action: "delete",
-    ownerKey: browserOwnerKey,
-    profileId: profile.id,
-  });
-  window.setTimeout(() => updateSyncStatus("Synced with Google Sheet", "success"), 700);
+
+  try {
+    await submitToSheet({
+      action: "delete",
+      ownerKey: browserOwnerKey,
+      profileId,
+    });
+
+    const profiles = await fetchSheetProfiles();
+    if (profiles.some((remoteProfile) => remoteProfile.id === profileId)) {
+      throw new Error("Profile was still found in the Google Sheet.");
+    }
+
+    applyRemoteProfiles(profiles);
+    updateSyncStatus("Synced with Google Sheet", "success");
+  } catch {
+    updateSyncStatus("Google Sheet did not update. Check deployment.", "error");
+  }
 }
 
 async function refreshProfilesFromSheet() {
@@ -600,39 +679,8 @@ async function refreshProfilesFromSheet() {
   updateSyncStatus("Loading Google Sheet...", "saving");
 
   try {
-    const payload = await loadJsonp(
-      makeSheetUrl({
-        action: "list",
-        ownerKey: browserOwnerKey,
-        cacheBust: Date.now().toString(),
-      }),
-    );
-    const profiles = Array.isArray(payload?.profiles) ? payload.profiles : [];
-    const remoteIds = new Set();
-    isApplyingRemoteProfiles = true;
-
-    profiles.forEach((remoteProfile) => {
-      if (!remoteProfile?.id) return;
-      const profile = createProfile(remoteProfile.name || "Friend", {
-        ...remoteProfile,
-        ownerKey: remoteProfile.canEdit ? browserOwnerKey : null,
-        remote: true,
-        canEdit: Boolean(remoteProfile.canEdit),
-      });
-      remoteIds.add(profile.id);
-      appState.profiles[profile.id] = profile;
-    });
-
-    Object.entries(appState.profiles).forEach(([profileId, profile]) => {
-      if (profile.remote && !remoteIds.has(profileId)) delete appState.profiles[profileId];
-    });
-
-    if (!appState.profiles[appState.activeProfileId]) {
-      appState.activeProfileId = appState.profiles["profile-you"] ? "profile-you" : Object.keys(appState.profiles)[0];
-    }
-
-    saveState({ sync: false });
-    refreshApp({ loadRemote: false });
+    const profiles = await fetchSheetProfiles();
+    applyRemoteProfiles(profiles);
     updateSyncStatus("Synced with Google Sheet", "success");
   } catch {
     updateSyncStatus("Google Sheet sync unavailable", "error");
