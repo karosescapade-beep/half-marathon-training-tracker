@@ -1,44 +1,95 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Half Marathon + HYROX Training Tracker</title>
-    <link rel="stylesheet" href="styles.css?v=2" />
+    <title>Lululemon Half Marathon Training Diary</title>
+    <link rel="stylesheet" href="styles.css?v=20" />
   </head>
   <body>
     <header class="hero">
-      <div class="hero-art" role="img" aria-label="Watercolor training illustration"></div>
+      <div class="hero-art" role="img" aria-label="Training theme illustration"></div>
       <div class="hero-content">
         <div>
-        <p class="eyebrow">April 27-August 8, 2026</p>
-          <h1>Half Marathon + HYROX Tracker</h1>
+          <p class="eyebrow">April 27-August 8, 2026</p>
+          <h1>Lululemon Half Marathon Training Diary</h1>
           <p class="intro">
-            A calm, checkable calendar for Monday runs, WFH class days,
-            Saturday long runs, flexibility recovery, and race day.
+            Individual training reports, flexible weekly scheduling, long-run
+            mileage, and a friendly leaderboard.
           </p>
           <p class="motto">Consistency over intensity.</p>
         </div>
         <section class="progress-card" aria-label="Training progress">
-          <div class="progress-ring">
-            <span id="progressPercent">0%</span>
+          <label class="profile-picker">
+            <span>Current athlete</span>
+            <select id="profileSelect"></select>
+          </label>
+          <label class="theme-picker">
+            <span>Visual theme</span>
+            <select id="themeSelect">
+              <option value="anime">Anime</option>
+              <option value="warrior">Warrior</option>
+              <option value="cartoon">Cartoon</option>
+              <option value="wasteland">Wasteland</option>
+            </select>
+          </label>
+          <div class="progress-main">
+            <div class="progress-ring">
+              <span id="progressPercent">0%</span>
+            </div>
+            <div class="progress-copy">
+              <div class="progress-topline">
+                <span id="completedCount">0 completed</span>
+                <span id="totalCount">0 total</span>
+              </div>
+              <div class="progress-bar" aria-hidden="true">
+                <span id="progressFill"></span>
+              </div>
+            </div>
           </div>
           <div class="progress-copy">
-            <div class="progress-topline">
-              <span id="completedCount">0 completed</span>
-              <span id="totalCount">0 total</span>
+            <div class="progress-stats" aria-label="Leaderboard stats">
+              <span>
+                <strong id="milesCount">0</strong>
+                miles
+              </span>
+              <span>
+                <strong id="scoreCount">0</strong>
+                score
+              </span>
             </div>
-            <div class="progress-bar" aria-hidden="true">
-              <span id="progressFill"></span>
+            <div class="view-actions" aria-label="Choose view">
+              <button class="view-button active" type="button" data-view="report">My Progress</button>
+              <button class="view-button" type="button" data-view="leaderboard">Leaderboard</button>
             </div>
-            <button id="resetButton" type="button">Reset checkmarks</button>
+            <div class="profile-actions">
+              <button id="resetButton" type="button">Reset progress</button>
+              <button id="deleteProfileButton" class="delete-profile-button" type="button" hidden>
+                Delete my entry
+              </button>
+            </div>
           </div>
         </section>
       </div>
     </header>
 
     <main>
-      <section class="weekly-rhythm" aria-labelledby="rhythm-title">
+      <section class="competition-panel" aria-label="Join leaderboard">
+        <form id="joinForm" class="join-form">
+          <label>
+            <span>Add a friend</span>
+            <input id="joinName" type="text" autocomplete="off" maxlength="24" placeholder="Name" />
+          </label>
+          <button type="submit">Join leaderboard</button>
+        </form>
+        <div class="status-stack">
+          <p id="profileStatus" class="profile-status"></p>
+          <p id="syncStatus" class="sync-status">Saved on this browser</p>
+        </div>
+      </section>
+
+      <div id="reportView">
+        <section class="weekly-rhythm" aria-labelledby="rhythm-title">
         <div class="section-heading">
           <p class="eyebrow">Default week</p>
           <h2 id="rhythm-title">Your Training Rhythm</h2>
@@ -75,12 +126,25 @@
         </div>
       </section>
 
-      <section aria-labelledby="weeks-title">
-        <div class="section-heading">
-          <p class="eyebrow">Dated 2026 calendar</p>
-          <h2 id="weeks-title">Half Marathon Build</h2>
+      <section class="calendar-section" aria-labelledby="weeks-title">
+        <div class="section-heading carousel-heading">
+          <div>
+            <p class="eyebrow">Dated 2026 calendar</p>
+            <h2 id="weeks-title">Half Marathon Build</h2>
+          </div>
+          <div class="week-carousel-controls" aria-label="Navigate training weeks">
+            <button id="prevWeekButton" class="carousel-button" type="button" aria-label="Previous week">
+              â€¹
+            </button>
+            <span id="weekCarouselStatus">Week 1 of 15</span>
+            <button id="nextWeekButton" class="carousel-button" type="button" aria-label="Next week">
+              â€º
+            </button>
+          </div>
         </div>
-        <div id="weeks" class="weeks"></div>
+        <div class="week-carousel-shell">
+          <div id="weeks" class="weeks" tabindex="0" aria-label="Weekly training plan"></div>
+        </div>
       </section>
 
       <section class="notes" aria-labelledby="notes-title">
@@ -90,10 +154,10 @@
         </div>
         <div class="note-grid">
           <article>
-            <h3>Protect Saturday</h3>
+            <h3>Protect Rest Day</h3>
             <p>
-              Friday should ideally be flexibility work, upper/core strength, or
-              a lighter class so your long run has room to grow.
+              Keep at least one true low-pressure day each week. Rest, walking,
+              stretching, or gentle mobility all count.
             </p>
           </article>
           <article>
@@ -104,16 +168,42 @@
             </p>
           </article>
           <article>
-            <h3>Use Gympass Wisely</h3>
+            <h3>Choose Supportive Strength</h3>
             <p>
-              Pilates, Barre, or Yoga can show up often. Keep true hard sessions
-              to two or three per week while your running base catches up.
+              Any studio, gym, or home workout can fit. Keep hard sessions
+              purposeful, and let recovery work support the miles.
             </p>
           </article>
         </div>
       </section>
+      </div>
+
+      <section id="leaderboardView" class="leaderboard-view" aria-labelledby="leaderboard-title" hidden>
+        <div class="section-heading">
+          <p class="eyebrow">Friendly standings</p>
+          <h2 id="leaderboard-title">Leaderboard</h2>
+        </div>
+        <section class="anthem-card" aria-label="Competition playlist">
+          <div>
+            <p class="eyebrow">Get your feet moving!!</p>
+            <h3>The Crew's Hype Mix</h3>
+            <p>Add the songs that make your pace pick up.</p>
+          </div>
+          <a
+            id="spotifyPlaylistLink"
+            class="spotify-link"
+            href="https://open.spotify.com/playlist/6NeQvrP1xXxTACtD8Bslqs?si=uE0FdFjYRd6skztmEbEnzA"
+            target="_blank"
+            rel="noopener"
+          >
+            Press Play
+          </a>
+        </section>
+        <div id="leaderboardRows" class="leaderboard-rows"></div>
+      </section>
     </main>
 
-    <script src="script.js?v=2"></script>
+    <script src="script.js?v=20"></script>
   </body>
 </html>
+
