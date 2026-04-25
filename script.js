@@ -642,8 +642,8 @@ async function syncProfileToSheet(profile = getActiveProfile()) {
 
     applyRemoteProfiles(profiles);
     updateSyncStatus("Synced with Google Sheet", "success");
-  } catch {
-    updateSyncStatus("Google Sheet did not update. Check deployment.", "error");
+  } catch (error) {
+    updateSyncStatus(`Google Sheet error: ${error.message || "save failed"}`, "error");
   }
 }
 
@@ -668,8 +668,8 @@ async function syncDeleteProfile(profile) {
 
     applyRemoteProfiles(profiles);
     updateSyncStatus("Synced with Google Sheet", "success");
-  } catch {
-    updateSyncStatus("Google Sheet did not update. Check deployment.", "error");
+  } catch (error) {
+    updateSyncStatus(`Google Sheet error: ${error.message || "delete failed"}`, "error");
   }
 }
 
