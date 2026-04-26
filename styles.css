@@ -12,7 +12,7 @@
   --cream: #fffdf9;
   --button-end: #79a9cc;
   --soft-accent: #f5d3cc;
-  --hero-image: url("assets/anime-training-hero.png");
+  --hero-image: url("anime-training-hero.png?v=34");
   --hero-wash-strong: rgba(248, 251, 255, 0.95);
   --hero-wash-mid: rgba(248, 251, 255, 0.66);
   --hero-wash-clear: rgba(248, 251, 255, 0.1);
@@ -40,7 +40,7 @@ body[data-theme="anime"] {
   --cream: #fffdf9;
   --button-end: #79a9cc;
   --soft-accent: #f5d3cc;
-  --hero-image: url("assets/anime-training-hero.png");
+  --hero-image: url("anime-training-hero.png?v=34");
   --hero-wash-strong: rgba(248, 251, 255, 0.95);
   --hero-wash-mid: rgba(248, 251, 255, 0.66);
   --hero-wash-clear: rgba(248, 251, 255, 0.1);
@@ -63,7 +63,7 @@ body[data-theme="warrior"] {
   --cream: #fffaf1;
   --button-end: #8f7550;
   --soft-accent: #d8c088;
-  --hero-image: url("assets/warrior-training-hero.png");
+  --hero-image: url("warrior-training-hero.png?v=34");
   --hero-wash-strong: rgba(251, 245, 234, 0.96);
   --hero-wash-mid: rgba(251, 245, 234, 0.66);
   --hero-wash-clear: rgba(251, 245, 234, 0.08);
@@ -86,7 +86,7 @@ body[data-theme="cartoon"] {
   --cream: #fffdf3;
   --button-end: #ff7a3d;
   --soft-accent: #ffd84d;
-  --hero-image: url("assets/cartoon-training-hero.png");
+  --hero-image: url("cartoon-training-hero.png?v=34");
   --hero-wash-strong: rgba(255, 247, 223, 0.95);
   --hero-wash-mid: rgba(255, 247, 223, 0.64);
   --hero-wash-clear: rgba(255, 247, 223, 0.06);
@@ -109,7 +109,7 @@ body[data-theme="wasteland"] {
   --cream: #fff5e4;
   --button-end: #a6472a;
   --soft-accent: #d7a151;
-  --hero-image: url("assets/wasteland-training-hero.png");
+  --hero-image: url("wasteland-training-hero.png?v=34");
   --hero-wash-strong: rgba(251, 237, 216, 0.96);
   --hero-wash-mid: rgba(251, 237, 216, 0.7);
   --hero-wash-clear: rgba(251, 237, 216, 0.08);
@@ -120,7 +120,7 @@ body[data-theme="wasteland"] {
 
 @font-face {
   font-family: "Amanojaku";
-  src: url("assets/fonts/amanojaku-demo.otf") format("opentype");
+  src: url("amanojaku-demo.otf?v=34") format("opentype");
   font-display: swap;
 }
 
@@ -1213,3 +1213,4 @@ select:disabled {
     flex-direction: column;
   }
 }
+
