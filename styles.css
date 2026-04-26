@@ -1,4 +1,4 @@
-:root {
+﻿:root {
   --ink: #223044;
   --muted: #63738a;
   --line: rgba(70, 105, 132, 0.18);
@@ -12,7 +12,7 @@
   --cream: #fffdf9;
   --button-end: #79a9cc;
   --soft-accent: #f5d3cc;
-  --hero-image: url("anime-training-hero.png?v=35");
+  --hero-image: url("anime-training-hero.png?v=37");
   --hero-wash-strong: rgba(248, 251, 255, 0.95);
   --hero-wash-mid: rgba(248, 251, 255, 0.66);
   --hero-wash-clear: rgba(248, 251, 255, 0.1);
@@ -40,7 +40,7 @@ body[data-theme="anime"] {
   --cream: #fffdf9;
   --button-end: #79a9cc;
   --soft-accent: #f5d3cc;
-  --hero-image: url("anime-training-hero.png?v=35");
+  --hero-image: url("anime-training-hero.png?v=37");
   --hero-wash-strong: rgba(248, 251, 255, 0.95);
   --hero-wash-mid: rgba(248, 251, 255, 0.66);
   --hero-wash-clear: rgba(248, 251, 255, 0.1);
@@ -63,7 +63,7 @@ body[data-theme="warrior"] {
   --cream: #fffaf1;
   --button-end: #8f7550;
   --soft-accent: #d8c088;
-  --hero-image: url("warrior-training-hero.png?v=35");
+  --hero-image: url("warrior-training-hero.png?v=37");
   --hero-wash-strong: rgba(251, 245, 234, 0.96);
   --hero-wash-mid: rgba(251, 245, 234, 0.66);
   --hero-wash-clear: rgba(251, 245, 234, 0.08);
@@ -86,7 +86,7 @@ body[data-theme="cartoon"] {
   --cream: #fffdf3;
   --button-end: #ff7a3d;
   --soft-accent: #ffd84d;
-  --hero-image: url("cartoon-training-hero.png?v=35");
+  --hero-image: url("cartoon-training-hero.png?v=37");
   --hero-wash-strong: rgba(255, 247, 223, 0.95);
   --hero-wash-mid: rgba(255, 247, 223, 0.64);
   --hero-wash-clear: rgba(255, 247, 223, 0.06);
@@ -109,7 +109,7 @@ body[data-theme="wasteland"] {
   --cream: #fff5e4;
   --button-end: #a6472a;
   --soft-accent: #d7a151;
-  --hero-image: url("wasteland-training-hero.png?v=35");
+  --hero-image: url("wasteland-training-hero.png?v=37");
   --hero-wash-strong: rgba(251, 237, 216, 0.96);
   --hero-wash-mid: rgba(251, 237, 216, 0.7);
   --hero-wash-clear: rgba(251, 237, 216, 0.08);
@@ -120,7 +120,7 @@ body[data-theme="wasteland"] {
 
 @font-face {
   font-family: "Amanojaku";
-  src: url("amanojaku-demo.otf?v=35") format("opentype");
+  src: url("amanojaku-demo.otf?v=37") format("opentype");
   font-display: swap;
 }
 
@@ -847,6 +847,48 @@ select:disabled {
   cursor: grab;
 }
 
+.mobile-move-controls {
+  display: none;
+  align-self: center;
+  gap: 6px;
+}
+
+.move-task-button {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border: 1px solid rgba(82, 108, 86, 0.2);
+  border-radius: 999px;
+  color: #ffffff;
+  background: linear-gradient(135deg, var(--sage-deep), var(--button-end));
+  box-shadow: 0 8px 18px rgba(58, 67, 57, 0.12);
+  touch-action: manipulation;
+}
+
+.move-task-button span {
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-color: currentColor;
+  border-style: solid;
+  border-width: 2px 2px 0 0;
+}
+
+.move-task-up span {
+  transform: translateY(2px) rotate(-45deg);
+}
+
+.move-task-down span {
+  transform: translateY(-2px) rotate(135deg);
+}
+
+.move-task-button:disabled {
+  color: rgba(117, 101, 78, 0.45);
+  background: rgba(255, 255, 255, 0.58);
+  box-shadow: none;
+}
+
 .task input {
   width: 20px;
   height: 20px;
@@ -906,6 +948,8 @@ select:disabled {
 }
 
 .choice-select {
+  position: relative;
+  z-index: 2;
   max-width: 136px;
   padding: 5px 27px 5px 10px;
   border: 1px solid rgba(82, 108, 86, 0.2);
@@ -918,6 +962,7 @@ select:disabled {
   font-size: 0.82rem;
   font-weight: 600;
   appearance: none;
+  touch-action: manipulation;
 }
 
 .choice-select:focus {
@@ -941,6 +986,8 @@ select:disabled {
 }
 
 .mileage-control input {
+  position: relative;
+  z-index: 2;
   width: 54px;
   min-height: 30px;
   padding: 3px 8px;
@@ -951,6 +998,7 @@ select:disabled {
   font-family: var(--font-ui);
   font-size: 0.82rem;
   font-weight: 600;
+  touch-action: manipulation;
 }
 
 .task .mileage-control span {
@@ -1181,6 +1229,21 @@ select:disabled {
     flex-basis: min(88vw, 720px);
   }
 
+  .task {
+    grid-template-columns: 14px 22px minmax(0, 1fr) auto;
+    gap: 10px;
+    align-items: center;
+    padding: 14px 12px;
+  }
+
+  .drag-grip {
+    opacity: 0.34;
+  }
+
+  .mobile-move-controls {
+    display: grid;
+  }
+
   .rhythm-grid article {
     min-height: auto;
   }
@@ -1230,4 +1293,3 @@ select:disabled {
     flex-direction: column;
   }
 }
-
