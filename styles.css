@@ -12,7 +12,7 @@
   --cream: #fffdf9;
   --button-end: #79a9cc;
   --soft-accent: #f5d3cc;
-  --hero-image: url("anime-training-hero.png?v=34");
+  --hero-image: url("anime-training-hero.png?v=35");
   --hero-wash-strong: rgba(248, 251, 255, 0.95);
   --hero-wash-mid: rgba(248, 251, 255, 0.66);
   --hero-wash-clear: rgba(248, 251, 255, 0.1);
@@ -40,7 +40,7 @@ body[data-theme="anime"] {
   --cream: #fffdf9;
   --button-end: #79a9cc;
   --soft-accent: #f5d3cc;
-  --hero-image: url("anime-training-hero.png?v=34");
+  --hero-image: url("anime-training-hero.png?v=35");
   --hero-wash-strong: rgba(248, 251, 255, 0.95);
   --hero-wash-mid: rgba(248, 251, 255, 0.66);
   --hero-wash-clear: rgba(248, 251, 255, 0.1);
@@ -63,7 +63,7 @@ body[data-theme="warrior"] {
   --cream: #fffaf1;
   --button-end: #8f7550;
   --soft-accent: #d8c088;
-  --hero-image: url("warrior-training-hero.png?v=34");
+  --hero-image: url("warrior-training-hero.png?v=35");
   --hero-wash-strong: rgba(251, 245, 234, 0.96);
   --hero-wash-mid: rgba(251, 245, 234, 0.66);
   --hero-wash-clear: rgba(251, 245, 234, 0.08);
@@ -86,7 +86,7 @@ body[data-theme="cartoon"] {
   --cream: #fffdf3;
   --button-end: #ff7a3d;
   --soft-accent: #ffd84d;
-  --hero-image: url("cartoon-training-hero.png?v=34");
+  --hero-image: url("cartoon-training-hero.png?v=35");
   --hero-wash-strong: rgba(255, 247, 223, 0.95);
   --hero-wash-mid: rgba(255, 247, 223, 0.64);
   --hero-wash-clear: rgba(255, 247, 223, 0.06);
@@ -109,7 +109,7 @@ body[data-theme="wasteland"] {
   --cream: #fff5e4;
   --button-end: #a6472a;
   --soft-accent: #d7a151;
-  --hero-image: url("wasteland-training-hero.png?v=34");
+  --hero-image: url("wasteland-training-hero.png?v=35");
   --hero-wash-strong: rgba(251, 237, 216, 0.96);
   --hero-wash-mid: rgba(251, 237, 216, 0.7);
   --hero-wash-clear: rgba(251, 237, 216, 0.08);
@@ -120,7 +120,7 @@ body[data-theme="wasteland"] {
 
 @font-face {
   font-family: "Amanojaku";
-  src: url("amanojaku-demo.otf?v=34") format("opentype");
+  src: url("amanojaku-demo.otf?v=35") format("opentype");
   font-display: swap;
 }
 
@@ -556,22 +556,39 @@ section {
 
 .manual-sync-button {
   justify-self: start;
-  min-height: 32px;
-  margin-top: 4px;
-  padding: 7px 12px;
-  border: 1px solid rgba(82, 108, 86, 0.2);
+  min-height: 42px;
+  margin-top: 8px;
+  padding: 11px 18px;
+  border: 2px solid rgba(255, 255, 255, 0.68);
   border-radius: 999px;
   color: #ffffff;
-  background: linear-gradient(135deg, var(--sage-deep), var(--button-end));
-  box-shadow: 0 8px 18px rgba(58, 67, 57, 0.12);
+  background: linear-gradient(135deg, #ff6f61 0%, #f3a43b 52%, #61a5c2 100%);
+  box-shadow:
+    0 13px 24px rgba(214, 105, 62, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.32);
   cursor: pointer;
   font-family: var(--font-ui);
-  font-size: 0.78rem;
-  font-weight: 600;
+  font-size: 0.86rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  transition:
+    box-shadow 160ms ease,
+    transform 160ms ease;
 }
 
 .manual-sync-button:hover {
-  transform: translateY(-1px);
+  box-shadow:
+    0 16px 30px rgba(214, 105, 62, 0.34),
+    inset 0 1px 0 rgba(255, 255, 255, 0.38);
+  transform: translateY(-2px);
+}
+
+.manual-sync-button:disabled {
+  cursor: not-allowed;
+  filter: grayscale(0.35);
+  opacity: 0.58;
+  transform: none;
 }
 
 button:disabled,
