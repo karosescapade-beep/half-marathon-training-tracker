@@ -12,7 +12,7 @@
   --cream: #fffdf9;
   --button-end: #79a9cc;
   --soft-accent: #f5d3cc;
-  --hero-image: url("anime-training-hero.png?v=37");
+  --hero-image: url("anime-training-hero.png?v=44");
   --hero-wash-strong: rgba(248, 251, 255, 0.95);
   --hero-wash-mid: rgba(248, 251, 255, 0.66);
   --hero-wash-clear: rgba(248, 251, 255, 0.1);
@@ -40,7 +40,7 @@ body[data-theme="anime"] {
   --cream: #fffdf9;
   --button-end: #79a9cc;
   --soft-accent: #f5d3cc;
-  --hero-image: url("anime-training-hero.png?v=37");
+  --hero-image: url("anime-training-hero.png?v=44");
   --hero-wash-strong: rgba(248, 251, 255, 0.95);
   --hero-wash-mid: rgba(248, 251, 255, 0.66);
   --hero-wash-clear: rgba(248, 251, 255, 0.1);
@@ -63,7 +63,7 @@ body[data-theme="warrior"] {
   --cream: #fffaf1;
   --button-end: #8f7550;
   --soft-accent: #d8c088;
-  --hero-image: url("warrior-training-hero.png?v=37");
+  --hero-image: url("warrior-training-hero.png?v=44");
   --hero-wash-strong: rgba(251, 245, 234, 0.96);
   --hero-wash-mid: rgba(251, 245, 234, 0.66);
   --hero-wash-clear: rgba(251, 245, 234, 0.08);
@@ -86,7 +86,7 @@ body[data-theme="cartoon"] {
   --cream: #fffdf3;
   --button-end: #ff7a3d;
   --soft-accent: #ffd84d;
-  --hero-image: url("cartoon-training-hero.png?v=37");
+  --hero-image: url("cartoon-training-hero.png?v=44");
   --hero-wash-strong: rgba(255, 247, 223, 0.95);
   --hero-wash-mid: rgba(255, 247, 223, 0.64);
   --hero-wash-clear: rgba(255, 247, 223, 0.06);
@@ -109,7 +109,7 @@ body[data-theme="wasteland"] {
   --cream: #fff5e4;
   --button-end: #a6472a;
   --soft-accent: #d7a151;
-  --hero-image: url("wasteland-training-hero.png?v=37");
+  --hero-image: url("wasteland-training-hero.png?v=44");
   --hero-wash-strong: rgba(251, 237, 216, 0.96);
   --hero-wash-mid: rgba(251, 237, 216, 0.7);
   --hero-wash-clear: rgba(251, 237, 216, 0.08);
@@ -120,7 +120,7 @@ body[data-theme="wasteland"] {
 
 @font-face {
   font-family: "Amanojaku";
-  src: url("amanojaku-demo.otf?v=37") format("opentype");
+  src: url("amanojaku-demo.otf?v=44") format("opentype");
   font-display: swap;
 }
 
@@ -626,10 +626,13 @@ select:disabled {
   width: 38px;
   height: 38px;
   place-items: center;
-  border: 1px solid rgba(82, 108, 86, 0.16);
+  border: 1px solid rgba(111, 169, 207, 0.22);
   border-radius: 50%;
-  color: #ffffff;
-  background: linear-gradient(135deg, var(--sage-deep), var(--button-end));
+  color: var(--sage-deep);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(242, 248, 251, 0.8)),
+    rgba(255, 255, 255, 0.86);
+  box-shadow: 0 8px 18px rgba(76, 112, 130, 0.08);
   cursor: pointer;
   font-family: var(--font-ui);
   font-size: 1.45rem;
@@ -845,6 +848,7 @@ select:disabled {
     7px 7px;
   background-size: 7px 7px;
   cursor: grab;
+  touch-action: none;
 }
 
 .mobile-move-controls {
@@ -854,16 +858,22 @@ select:disabled {
 }
 
 .move-task-button {
+  position: relative;
+  z-index: 3;
   display: grid;
   width: 34px;
   height: 34px;
   place-items: center;
-  border: 1px solid rgba(82, 108, 86, 0.2);
+  border: 1px solid rgba(111, 169, 207, 0.22);
   border-radius: 999px;
-  color: #ffffff;
-  background: linear-gradient(135deg, var(--sage-deep), var(--button-end));
-  box-shadow: 0 8px 18px rgba(58, 67, 57, 0.12);
-  touch-action: manipulation;
+  color: var(--sage-deep);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(242, 248, 251, 0.8)),
+    rgba(255, 255, 255, 0.86);
+  box-shadow: 0 8px 18px rgba(76, 112, 130, 0.08);
+  cursor: pointer;
+  pointer-events: auto;
+  touch-action: none;
 }
 
 .move-task-button span {
@@ -884,8 +894,8 @@ select:disabled {
 }
 
 .move-task-button:disabled {
-  color: rgba(117, 101, 78, 0.45);
-  background: rgba(255, 255, 255, 0.58);
+  color: rgba(117, 101, 78, 0.34);
+  background: rgba(255, 255, 255, 0.5);
   box-shadow: none;
 }
 
@@ -894,6 +904,12 @@ select:disabled {
   height: 20px;
   margin: 2px 0 0;
   accent-color: var(--sage-deep);
+}
+
+.task button,
+.task input,
+.task select {
+  pointer-events: auto;
 }
 
 .task span {
@@ -948,6 +964,7 @@ select:disabled {
 }
 
 .choice-select {
+  display: none;
   position: relative;
   z-index: 2;
   max-width: 136px;
@@ -970,10 +987,49 @@ select:disabled {
   outline-offset: 2px;
 }
 
+.choice-control {
+  display: inline-flex;
+  max-width: 100%;
+  align-items: center;
+}
+
+.choice-buttons {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.choice-button {
+  min-height: 34px;
+  padding: 6px 11px;
+  border: 1px solid rgba(82, 108, 86, 0.2);
+  border-radius: 999px;
+  color: var(--sage-deep);
+  background: rgba(255, 255, 255, 0.74);
+  box-shadow: 0 7px 15px rgba(58, 67, 57, 0.08);
+  cursor: pointer;
+  font-family: var(--font-ui);
+  font-size: 0.76rem;
+  font-weight: 650;
+  line-height: 1;
+  touch-action: manipulation;
+}
+
+.choice-button.active {
+  border-color: rgba(217, 141, 122, 0.28);
+  color: #5f6f61;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(245, 211, 204, 0.28)),
+    rgba(255, 255, 255, 0.9);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.72),
+    0 6px 13px rgba(217, 141, 122, 0.08);
+}
+
 .task .mileage-control {
   display: inline-flex;
-  flex-wrap: nowrap;
-  gap: 6px;
+  flex-wrap: wrap;
+  gap: 8px;
   align-items: center;
   max-width: 100%;
   color: var(--ink);
@@ -985,20 +1041,58 @@ select:disabled {
   text-transform: none;
 }
 
-.mileage-control input {
+.mileage-control input[type="range"] {
+  --slider-track: rgba(111, 169, 207, 0.2);
+  --slider-track-end: rgba(245, 211, 204, 0.18);
+  --slider-thumb: #7aaecf;
+  flex: 1 1 150px;
   position: relative;
   z-index: 2;
-  width: 54px;
-  min-height: 30px;
-  padding: 3px 8px;
-  border: 1px solid rgba(82, 108, 86, 0.18);
+  width: min(42vw, 190px);
+  min-width: 128px;
+  height: 30px;
+  padding: 0;
+  border: 0;
   border-radius: 999px;
-  color: var(--sage-deep);
-  background: rgba(255, 255, 255, 0.74);
-  font-family: var(--font-ui);
-  font-size: 0.82rem;
-  font-weight: 600;
-  touch-action: manipulation;
+  color: var(--slider-thumb);
+  background: transparent;
+  accent-color: var(--slider-thumb);
+  touch-action: none;
+  appearance: none;
+}
+
+.mileage-control input[type="range"]::-webkit-slider-runnable-track {
+  height: 8px;
+  border: 1px solid rgba(111, 169, 207, 0.16);
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--slider-track), var(--slider-track-end));
+}
+
+.mileage-control input[type="range"]::-webkit-slider-thumb {
+  width: 20px;
+  height: 20px;
+  margin-top: -7px;
+  border: 3px solid rgba(255, 255, 255, 0.86);
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--slider-thumb), rgba(167, 202, 221, 0.96));
+  box-shadow: 0 6px 14px rgba(76, 112, 130, 0.14);
+  appearance: none;
+}
+
+.mileage-control input[type="range"]::-moz-range-track {
+  height: 8px;
+  border: 1px solid rgba(111, 169, 207, 0.16);
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--slider-track), var(--slider-track-end));
+}
+
+.mileage-control input[type="range"]::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border: 3px solid rgba(255, 255, 255, 0.86);
+  border-radius: 50%;
+  background: var(--slider-thumb);
+  box-shadow: 0 6px 14px rgba(76, 112, 130, 0.14);
 }
 
 .task .mileage-control span {
@@ -1014,6 +1108,20 @@ select:disabled {
 
 .mileage-detail {
   color: var(--muted);
+}
+
+.task .mileage-control .mileage-value {
+  min-width: 46px;
+  padding: 4px 9px;
+  border: 1px solid rgba(111, 169, 207, 0.18);
+  border-radius: 999px;
+  color: #4c7082;
+  background: rgba(242, 248, 251, 0.8);
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  font-weight: 650;
+  line-height: 1.2;
+  text-align: center;
 }
 
 .task .mileage-control .mileage-detail {
@@ -1242,6 +1350,14 @@ select:disabled {
 
   .mobile-move-controls {
     display: grid;
+  }
+
+  .choice-select {
+    display: none;
+  }
+
+  .choice-buttons {
+    display: inline-flex;
   }
 
   .rhythm-grid article {
