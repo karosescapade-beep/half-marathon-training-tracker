@@ -17,7 +17,7 @@
   --selected-chip-border: rgba(255, 255, 255, 0.46);
   --selected-chip-shadow: rgba(76, 112, 130, 0.2);
   --selected-edge: rgba(229, 143, 138, 0.64);
-  --hero-image: url("anime-training-hero.png?v=51");
+  --hero-image: url("anime-training-hero.png?v=58");
   --hero-wash-strong: rgba(248, 251, 255, 0.95);
   --hero-wash-mid: rgba(248, 251, 255, 0.66);
   --hero-wash-clear: rgba(248, 251, 255, 0.1);
@@ -50,7 +50,7 @@ body[data-theme="anime"] {
   --selected-chip-border: rgba(255, 255, 255, 0.46);
   --selected-chip-shadow: rgba(76, 112, 130, 0.2);
   --selected-edge: rgba(229, 143, 138, 0.64);
-  --hero-image: url("anime-training-hero.png?v=51");
+  --hero-image: url("anime-training-hero.png?v=58");
   --hero-wash-strong: rgba(248, 251, 255, 0.95);
   --hero-wash-mid: rgba(248, 251, 255, 0.66);
   --hero-wash-clear: rgba(248, 251, 255, 0.1);
@@ -78,7 +78,7 @@ body[data-theme="warrior"] {
   --selected-chip-border: rgba(255, 255, 255, 0.42);
   --selected-chip-shadow: rgba(89, 102, 70, 0.22);
   --selected-edge: rgba(183, 95, 77, 0.64);
-  --hero-image: url("warrior-training-hero.png?v=51");
+  --hero-image: url("warrior-training-hero.png?v=58");
   --hero-wash-strong: rgba(251, 245, 234, 0.96);
   --hero-wash-mid: rgba(251, 245, 234, 0.66);
   --hero-wash-clear: rgba(251, 245, 234, 0.08);
@@ -106,7 +106,7 @@ body[data-theme="cartoon"] {
   --selected-chip-border: rgba(255, 255, 255, 0.5);
   --selected-chip-shadow: rgba(18, 109, 136, 0.2);
   --selected-edge: rgba(255, 91, 143, 0.66);
-  --hero-image: url("cartoon-training-hero.png?v=51");
+  --hero-image: url("cartoon-training-hero.png?v=58");
   --hero-wash-strong: rgba(255, 247, 223, 0.95);
   --hero-wash-mid: rgba(255, 247, 223, 0.64);
   --hero-wash-clear: rgba(255, 247, 223, 0.06);
@@ -134,7 +134,7 @@ body[data-theme="wasteland"] {
   --selected-chip-border: rgba(255, 255, 255, 0.42);
   --selected-chip-shadow: rgba(109, 77, 47, 0.22);
   --selected-edge: rgba(185, 75, 47, 0.64);
-  --hero-image: url("wasteland-training-hero.png?v=51");
+  --hero-image: url("wasteland-training-hero.png?v=58");
   --hero-wash-strong: rgba(251, 237, 216, 0.96);
   --hero-wash-mid: rgba(251, 237, 216, 0.7);
   --hero-wash-clear: rgba(251, 237, 216, 0.08);
@@ -145,7 +145,7 @@ body[data-theme="wasteland"] {
 
 @font-face {
   font-family: "Amanojaku";
-  src: url("amanojaku-demo.otf?v=51") format("opentype");
+  src: url("amanojaku-demo.otf?v=58") format("opentype");
   font-display: swap;
 }
 
@@ -1172,7 +1172,7 @@ select:disabled {
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 18px;
   align-items: center;
-  margin: 0 0 14px;
+  margin: 16px 0 0;
   overflow: hidden;
   padding: 20px;
   border: 1px solid rgba(255, 122, 61, 0.34);
@@ -1268,6 +1268,67 @@ select:disabled {
   transform: translateY(-2px) scale(1.02);
 }
 
+.leaderboard-view .anthem-card {
+  margin: 16px 0 0;
+}
+
+.leaderboard-view {
+  margin-bottom: 32px;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--ink);
+  background:
+    linear-gradient(135deg, rgba(255, 253, 248, 0.9), rgba(255, 255, 255, 0.74)),
+    rgba(255, 253, 248, 0.9);
+  box-shadow: 0 20px 58px rgba(58, 67, 57, 0.1);
+}
+
+.leaderboard-view .leaderboard-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 6px 18px;
+  align-items: end;
+  margin-bottom: 16px;
+  padding: 0;
+  text-align: left;
+  background: transparent;
+}
+
+.leaderboard-heading .eyebrow {
+  grid-column: 1 / -1;
+  margin-bottom: 0;
+  color: var(--sage-deep);
+}
+
+.leaderboard-heading h2 {
+  margin-bottom: 0;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 500;
+}
+
+.leaderboard-subtitle {
+  justify-self: end;
+  margin-bottom: 5px;
+  color: var(--sage-deep);
+  font-family: var(--font-ui);
+  font-size: 0.86rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.leaderboard-dates {
+  grid-column: 1 / -1;
+  margin-bottom: 0;
+  color: var(--muted);
+  font-family: var(--font-ui);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
 .leaderboard-rows {
   display: grid;
   gap: 10px;
@@ -1275,18 +1336,36 @@ select:disabled {
 
 .leaderboard-row {
   display: grid;
-  grid-template-columns: 42px minmax(0, 1fr) 72px 88px 80px;
-  gap: 14px;
+  grid-template-columns: 30px minmax(0, 1fr) minmax(128px, 0.72fr) minmax(168px, 0.75fr);
+  gap: 18px;
   align-items: center;
-  padding: 16px;
+  padding: 15px 16px;
   border: 1px solid var(--line);
   border-radius: 8px;
-  background: rgba(255, 253, 248, 0.92);
-  box-shadow: 0 12px 38px rgba(58, 67, 57, 0.08);
+  color: var(--ink);
+  background: rgba(255, 253, 248, 0.9);
+  box-shadow: 0 12px 34px rgba(58, 67, 57, 0.07);
+  cursor: pointer;
+  outline: none;
+  transition:
+    border-color 160ms ease,
+    background 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+  touch-action: manipulation;
+}
+
+.leaderboard-row:hover,
+.leaderboard-row:focus-visible {
+  border-color: rgba(217, 141, 122, 0.42);
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 16px 36px rgba(58, 67, 57, 0.1);
+  transform: translateY(-1px);
 }
 
 .leaderboard-row.active-athlete {
-  border-color: rgba(217, 141, 122, 0.42);
+  border-color: rgba(217, 141, 122, 0.48);
+  color: var(--ink);
   background:
     linear-gradient(135deg, rgba(217, 141, 122, 0.11), rgba(185, 200, 174, 0.13)),
     rgba(255, 253, 248, 0.94);
@@ -1296,36 +1375,104 @@ select:disabled {
 }
 
 .leaderboard-row .rank {
-  display: grid;
-  width: 34px;
-  height: 34px;
-  place-items: center;
-  border-radius: 50%;
-  color: #ffffff;
-  background: linear-gradient(135deg, var(--sage-deep), var(--button-end));
-  font-family: var(--font-ui);
-  font-weight: 600;
-}
-
-.leaderboard-row h3 {
-  margin-bottom: 2px;
+  display: block;
+  color: var(--muted);
   font-family: var(--font-display);
-  font-size: 1.18rem;
+  font-size: 1.25rem;
+  font-variant-numeric: tabular-nums;
   font-weight: 500;
+  line-height: 1;
+  text-align: center;
 }
 
-.leaderboard-row p,
-.leaderboard-row span,
-.leaderboard-row strong {
+.leaderboard-row.active-athlete .rank,
+.leaderboard-row.active-athlete .leaderboard-metric strong {
+  color: var(--sage-deep);
+}
+
+.leaderboard-person {
+  min-width: 0;
+}
+
+.leaderboard-person h3 {
+  overflow: hidden;
+  margin-bottom: 3px;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.leaderboard-row.active-athlete .leaderboard-person h3 {
+  color: var(--ink);
+}
+
+.leaderboard-person p {
+  overflow: hidden;
   margin-bottom: 0;
   color: var(--muted);
   font-family: var(--font-ui);
-  font-size: 0.9rem;
-  font-weight: 600;
+  font-size: 0.84rem;
+  font-weight: 650;
+  line-height: 1.35;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.leaderboard-row strong {
+.leaderboard-progress {
+  display: grid;
+  gap: 6px;
   color: var(--sage-deep);
+  font-family: var(--font-ui);
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+
+.leaderboard-progress i {
+  display: block;
+  height: 7px;
+  overflow: hidden;
+  border: 1px solid rgba(111, 169, 207, 0.16);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.leaderboard-progress b {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--sage-deep), var(--button-end));
+}
+
+.leaderboard-metrics {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.leaderboard-metric {
+  display: grid;
+  gap: 2px;
+  color: var(--muted);
+  font-family: var(--font-ui);
+}
+
+.leaderboard-metric small {
+  color: var(--muted);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.leaderboard-metric strong {
+  color: var(--sage-deep);
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.2;
 }
 
 .leaderboard-empty {
@@ -1369,7 +1516,10 @@ select:disabled {
   .rhythm-grid,
   .note-grid,
   .competition-panel,
-  .join-form,
+  .join-form {
+    grid-template-columns: 1fr;
+  }
+
   .anthem-card {
     grid-template-columns: 1fr;
   }
@@ -1421,9 +1571,108 @@ select:disabled {
 
   .progress-main,
   .progress-stats,
-  .view-actions,
-  .leaderboard-row {
+  .view-actions {
     grid-template-columns: 1fr;
+  }
+
+  .leaderboard-view {
+    padding: 14px;
+  }
+
+  .leaderboard-view .leaderboard-heading {
+    display: block;
+    margin-bottom: 14px;
+  }
+
+  .leaderboard-heading h2 {
+    margin-bottom: 8px;
+    font-size: 2rem;
+  }
+
+  .leaderboard-subtitle {
+    justify-self: auto;
+    margin-bottom: 4px;
+    font-size: 0.76rem;
+  }
+
+  .leaderboard-dates {
+    font-size: 0.82rem;
+  }
+
+  .leaderboard-rows {
+    gap: 11px;
+  }
+
+  .leaderboard-row {
+    grid-template-columns: 24px minmax(0, 1fr);
+    gap: 14px;
+    align-items: center;
+    padding: 14px 12px;
+  }
+
+  .leaderboard-row .rank {
+    font-size: 1.05rem;
+  }
+
+  .leaderboard-person h3 {
+    font-size: 1.1rem;
+  }
+
+  .leaderboard-person p {
+    font-size: 0.76rem;
+  }
+
+  .leaderboard-progress {
+    grid-column: 1 / -1;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 10px;
+    align-items: center;
+    padding: 9px 11px;
+    border: 1px solid rgba(111, 169, 207, 0.14);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.62);
+  }
+
+  .leaderboard-progress i {
+    height: 9px;
+  }
+
+  .leaderboard-metrics {
+    grid-column: 1 / -1;
+  }
+
+  .leaderboard-metric {
+    padding: 10px 12px;
+    border: 1px solid rgba(111, 169, 207, 0.14);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.62);
+  }
+
+  .leaderboard-empty {
+    grid-template-columns: 24px minmax(0, 1fr);
+  }
+
+  .anthem-card {
+    margin-top: 16px;
+    padding: 16px;
+  }
+
+  .leaderboard-view .anthem-card {
+    margin: 16px 0 0;
+  }
+
+  .anthem-card::before {
+    top: 12px;
+    right: 24px;
+    opacity: 0.46;
+  }
+
+  .anthem-card::after {
+    opacity: 0.52;
+  }
+
+  .spotify-link {
+    width: 100%;
   }
 
   .progress-ring {
