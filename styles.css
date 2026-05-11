@@ -17,7 +17,7 @@
   --selected-chip-border: rgba(255, 255, 255, 0.46);
   --selected-chip-shadow: rgba(76, 112, 130, 0.2);
   --selected-edge: rgba(229, 143, 138, 0.64);
-  --hero-image: url("anime-training-hero.png?v=59");
+  --hero-image: url("anime-training-hero.png?v=60");
   --hero-wash-strong: rgba(248, 251, 255, 0.95);
   --hero-wash-mid: rgba(248, 251, 255, 0.66);
   --hero-wash-clear: rgba(248, 251, 255, 0.1);
@@ -50,7 +50,7 @@ body[data-theme="anime"] {
   --selected-chip-border: rgba(255, 255, 255, 0.46);
   --selected-chip-shadow: rgba(76, 112, 130, 0.2);
   --selected-edge: rgba(229, 143, 138, 0.64);
-  --hero-image: url("anime-training-hero.png?v=59");
+  --hero-image: url("anime-training-hero.png?v=60");
   --hero-wash-strong: rgba(248, 251, 255, 0.95);
   --hero-wash-mid: rgba(248, 251, 255, 0.66);
   --hero-wash-clear: rgba(248, 251, 255, 0.1);
@@ -78,7 +78,7 @@ body[data-theme="warrior"] {
   --selected-chip-border: rgba(255, 255, 255, 0.42);
   --selected-chip-shadow: rgba(89, 102, 70, 0.22);
   --selected-edge: rgba(183, 95, 77, 0.64);
-  --hero-image: url("warrior-training-hero.png?v=59");
+  --hero-image: url("warrior-training-hero.png?v=60");
   --hero-wash-strong: rgba(251, 245, 234, 0.96);
   --hero-wash-mid: rgba(251, 245, 234, 0.66);
   --hero-wash-clear: rgba(251, 245, 234, 0.08);
@@ -106,7 +106,7 @@ body[data-theme="cartoon"] {
   --selected-chip-border: rgba(255, 255, 255, 0.5);
   --selected-chip-shadow: rgba(18, 109, 136, 0.2);
   --selected-edge: rgba(255, 91, 143, 0.66);
-  --hero-image: url("cartoon-training-hero.png?v=59");
+  --hero-image: url("cartoon-training-hero.png?v=60");
   --hero-wash-strong: rgba(255, 247, 223, 0.95);
   --hero-wash-mid: rgba(255, 247, 223, 0.64);
   --hero-wash-clear: rgba(255, 247, 223, 0.06);
@@ -134,7 +134,7 @@ body[data-theme="wasteland"] {
   --selected-chip-border: rgba(255, 255, 255, 0.42);
   --selected-chip-shadow: rgba(109, 77, 47, 0.22);
   --selected-edge: rgba(185, 75, 47, 0.64);
-  --hero-image: url("wasteland-training-hero.png?v=59");
+  --hero-image: url("wasteland-training-hero.png?v=60");
   --hero-wash-strong: rgba(251, 237, 216, 0.96);
   --hero-wash-mid: rgba(251, 237, 216, 0.7);
   --hero-wash-clear: rgba(251, 237, 216, 0.08);
@@ -145,7 +145,7 @@ body[data-theme="wasteland"] {
 
 @font-face {
   font-family: "Amanojaku";
-  src: url("amanojaku-demo.otf?v=59") format("opentype");
+  src: url("amanojaku-demo.otf?v=60") format("opentype");
   font-display: swap;
 }
 
@@ -795,16 +795,31 @@ select:disabled {
 }
 
 .week-badge {
+  display: grid;
+  gap: 1px;
   flex: 0 0 auto;
-  min-width: 76px;
-  padding: 8px 10px;
+  min-width: 104px;
+  padding: 7px 11px;
   border-radius: 999px;
   color: #ffffff;
   background: linear-gradient(135deg, var(--sage-deep), var(--button-end));
   text-align: center;
   font-family: var(--font-ui);
-  font-size: 0.82rem;
   font-weight: 600;
+}
+
+.week-badge strong {
+  color: #ffffff;
+  font-size: 0.82rem;
+  line-height: 1.1;
+}
+
+.week-badge small {
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 0.64rem;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+  line-height: 1.1;
 }
 
 .task-list {
